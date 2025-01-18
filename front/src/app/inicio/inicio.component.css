@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Rubik:wght@400;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1, h2, h5 {
+  font-family: 'Rubik', sans-serif;
+}
+
+
+/* Título con Gradiente */
+.text-gradient {
+  background: linear-gradient(to right, #ff6f61,#6c63ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Tarjetas */
+.stat-card {
+  position: relative;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6f61, #6c63ff);
+    border-radius: 15px;
+    z-index: -1;
+    transition: all 0.5s;
+  }
+
+  &:hover:before {
+    filter: brightness(1.2);
+  }
+
+  .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+/* Círculos de Progreso */
+.circular-chart {
+  display: block;
+  margin: auto;
+  max-width: 80px;
+  max-height: 80px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #f0f0f0;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke: #ff6f61;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #ff6f61;
+  border: none;
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: darken(#ff6f61, 10%);
+  }
+}
+
+/* Ajustar Espaciado en Pantallas Pequeñas */
+@media (max-width: 576px) {
+  .text-gradient {
+    font-size: 1.5rem;
+  }
+
+  .btn-primary {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+}
