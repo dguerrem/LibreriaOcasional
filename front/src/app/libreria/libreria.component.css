@@ -1,0 +1,43 @@
+/* General */
+.container {
+    max-width: 960px;
+}
+
+.book-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.8s ease;
+}
+
+.book-card:hover {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.badge {
+    font-size: 0.8rem;
+}
+
+.progress {
+    height: 6px;
+}
+
+.progress-bar {
+    background-color: #ff6f61;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ffdddd;
+}

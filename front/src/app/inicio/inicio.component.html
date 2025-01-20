@@ -1,27 +1,28 @@
 <div class="container py-5">
-  <!-- Welcome Section -->
-  <section class="text-center mb-5">
-    <h1 class="display-4 fw-bold text-gradient mb-4">
-      ¡Bienvenido a la Librería Virtual!
-    </h1>
-    <button class="btn btn-primary btn-lg shadow-lg" (click)="startNewBook()">Start New Book</button>
-  </section>
+  <div class="content-box p-4">
+    <!-- Welcome Section -->
+    <section class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-gradient mb-4">
+        ¡Bienvenido a la Librería Virtual!
+      </h1>
+      <button class="btn btn-primary btn-lg shadow-lg" (click)="startNewBook()">Start New Book</button>
+    </section>
 
-  <!-- Quick Stats Section -->
-  <section>
-    <h2 class="h4 fw-semibold text-dark mb-4">Datos Rápidos</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-      <div class="col" *ngFor="let stat of stats">
-        <div class="card stat-card h-100">
-          <div class="card-body d-flex flex-column align-items-center justify-content-center">
-            <h5 class="card-title text-muted">{{ stat.title }}</h5>
-            <circle-progress [percent]="(stat.value / stat.total) * 100" [radius]="40" [outerStrokeWidth]="8"
-              [outerStrokeColor]="'#ff6f61'" [innerStrokeColor]="'#f0f0f0'" [animation]="true">
-            </circle-progress>
-
+    <!-- Quick Stats Section -->
+    <section>
+      <h2 class="h4 fw-semibold text-dark mb-4">Datos Rápidos</h2>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div class="col" *ngFor="let stat of stats">
+          <div class="card stat-card h-100">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+              <h5 class="card-title text-muted">{{ stat.title }}</h5>
+              <circle-progress [percent]="(stat.value / stat.total) * 100" [radius]="40" [outerStrokeWidth]="8"
+                [outerStrokeColor]="'#ff6f61'" [innerStrokeColor]="'#f0f0f0'" [animation]="true">
+              </circle-progress>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
