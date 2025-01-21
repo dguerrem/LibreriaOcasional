@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { NuevoLibroComponent } from '../nuevo-libro/nuevo-libro.component';
 
 @Component({
   selector: 'app-libreria',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NuevoLibroComponent],
   templateUrl: './libreria.component.html',
   styleUrl: './libreria.component.css'
 })
 export class LibreriaComponent {
+  estaNuevoLibroAbierto = false;
   books = [
     {
       title: 'To Kill a Mockingbird',
@@ -35,5 +37,13 @@ export class LibreriaComponent {
 
   startNewBook() {
     console.log('Starting a new book...');
+  }
+
+  abrirNuevoLibro() {
+    this.estaNuevoLibroAbierto = true;
+  }
+
+  cerrarNuevoLibro() {
+    this.estaNuevoLibroAbierto = false;
   }
 }

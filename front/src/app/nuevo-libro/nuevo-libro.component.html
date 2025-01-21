@@ -1,0 +1,45 @@
+<div class="popup-overlay" (click)="closePopup()"></div>
+<div class="popup-container">
+    <div class="popup-header">
+        <h2 class="popup-title text-gradient">Añadir Nuevo Libro</h2>
+    </div>
+    <form (submit)="onSubmit()" class="popup-form">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" id="title" class="form-control" [(ngModel)]="book.titulo" name="titulo" required />
+        </div>
+        <div class="form-group">
+            <label for="author">Autor</label>
+            <input type="text" id="author" class="form-control" [(ngModel)]="book.autor" name="autor" required />
+        </div>
+        <div class="form-group">
+            <label for="start-date">Fecha de Inicio</label>
+            <input type="date" id="start-date" class="form-control" [(ngModel)]="book.fechaInicio" name="fechaInicio" />
+        </div>
+        <div class="form-group">
+            <label for="end-date">Fecha de Finalización</label>
+            <input type="date" id="end-date" class="form-control" [(ngModel)]="book.fechaFin" name="fechaFin" />
+        </div>
+        <div class="form-group">
+            <label for="pages">Páginas Totales</label>
+            <input type="number" id="pages" class="form-control" [(ngModel)]="book.paginas" name="paginas" />
+        </div>
+        <div class="form-group">
+            <label for="cover">Portada del Libro</label>
+            <div class="custom-file-input">
+                <input type="file" id="cover" class="visually-hidden" (change)="onFileSelected($event)" />
+                <div class="file-upload-box" (click)="triggerFileInput()">
+                    <i *ngIf="!book.portadaPreview" class="bi bi-upload file-icon"></i>
+                    <p *ngIf="!book.portadaPreview">Subir Archivo</p>
+                    <div *ngIf="book.portadaPreview" class="file-preview">
+                        <img [src]="book.portadaPreview" alt="Vista previa de la portada" />
+                        <button type="button" class="delete-btn" (click)="clearFile()">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Añadir Libro</button>
+    </form>
+</div>

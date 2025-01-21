@@ -4,7 +4,7 @@
         <h1 class="display-4 fw-bold text-gradient mb-4">
           Librería
         </h1>
-        <button class="btn btn-primary btn-lg shadow-lg" (click)="startNewBook()">Start New Book</button>
+        <button class="btn btn-primary btn-lg shadow-lg" (click)="abrirNuevoLibro()">Añadir Libro</button>
       </section>
   
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -51,5 +51,7 @@
         </div>
       </div>
     </div>
+
+    <app-nuevo-libro *ngIf="estaNuevoLibroAbierto" (close)="cerrarNuevoLibro()"></app-nuevo-libro>
   </div>
   
