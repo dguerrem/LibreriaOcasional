@@ -1,0 +1,88 @@
+<div class="container py-5">
+    <div class="content-box p-4">
+        <section class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-gradient mb-4">Estadísticas</h1>
+        </section>
+
+        <!-- Gráficos -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Progreso de Lectura Mensual</h5>
+                        <canvas id="monthlyProgressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Desglose por Género</h5>
+                        <canvas id="genreBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-4">
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Progreso Anual</h5>
+                        <canvas id="yearlyProgressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card stat-card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Puntuaciones por Libro</h5>
+                    <canvas id="ratingsChart"></canvas>
+                  </div>
+                </div>
+              </div>
+        </div>
+          
+         <!-- Estadísticas de Texto -->
+         <div class="row g-4 mt-4">
+            <!-- Tasa de Finalización -->
+            <div class="col-md-4">
+                <div class="kpi-card kpi-completion">
+                    <div class="kpi-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h5>Tasa de Finalización</h5>
+                        <p>85% de libros completados</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media de Tiempo por Libro -->
+            <div class="col-md-4">
+                <div class="kpi-card kpi-time">
+                    <div class="kpi-icon">
+                        <i class="bi bi-clock-fill"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h5>Tiempo Promedio por Libro</h5>
+                        <p>4.2 días por libro</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Libros Pendientes -->
+            <div class="col-md-4">
+                <div class="kpi-card kpi-pending">
+                    <div class="kpi-icon">
+                        <i class="bi bi-book-fill"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h5>Libros Pendientes</h5>
+                        <p>12 libros por leer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

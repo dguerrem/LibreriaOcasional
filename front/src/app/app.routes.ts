@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { InicioComponent } from './inicio/inicio.component';
 import { LibreriaComponent } from './libreria/libreria.component';
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 
 export const routes: Routes = [
     {
@@ -11,6 +12,11 @@ export const routes: Routes = [
     {
         path: 'libreria',
         component: LibreriaComponent,
+        pathMatch: 'full'
+    },
+    {
+        path: 'estadisticas',
+        component: EstadisticasComponent,
         pathMatch: 'full'
     },
     {
