@@ -31,8 +31,4 @@ export class InicioComponent {
     { title: 'Nota Media', value: 4.2, total: 5 },
     { title: 'Libros En este Mes', value: 21, total: 30 },
   ];
-
-  startNewBook() {
-    console.log('Starting a new book...');
-  }
 }

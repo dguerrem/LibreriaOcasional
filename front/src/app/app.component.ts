@@ -10,4 +10,14 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'front';
+
+  currentRoute: string = '';
+
+  constructor() {
+    this.updateCurrentRoute();
+  }
+
+  updateCurrentRoute() {
+    this.currentRoute = window.location.pathname.replace('/', '');
+  }
 }

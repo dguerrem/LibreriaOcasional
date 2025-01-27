@@ -7,17 +7,14 @@ export const routes: Routes = [
     {
         path: '',
         component: InicioComponent,
-        pathMatch: 'full'
     },
     {
         path: 'libreria',
         component: LibreriaComponent,
-        pathMatch: 'full'
     },
     {
         path: 'estadisticas',
         component: EstadisticasComponent,
-        pathMatch: 'full'
     },
     {
         path: '**',
