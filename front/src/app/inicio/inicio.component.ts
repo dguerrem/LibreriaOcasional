@@ -3,10 +3,13 @@ import { Component } from '@angular/core';
 
 import { CircleProgressOptions, NgCircleProgressModule } from 'ng-circle-progress';
 
+import * as bootstrap from 'bootstrap';
+import { CalendarioComponent } from "../calendario/calendario.component";
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, NgCircleProgressModule],
+  imports: [CommonModule, NgCircleProgressModule, CalendarioComponent],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css',
   providers: [
@@ -31,4 +34,28 @@ export class InicioComponent {
     { title: 'Nota Media', value: 4.2, total: 5 },
     { title: 'Libros En este Mes', value: 21, total: 30 },
   ];
+
+  months = [
+    { name: 'Enero', days: this.generateDays(31, [3, 10, 15, 27]) },
+    { name: 'Febrero', days: this.generateDays(28, [2, 8, 20, 25]) },
+    { name: 'Marzo', days: this.generateDays(31, [5, 12, 18, 30]) },
+  ];
+
+  ngOnInit(): void {
+    const carouselElement = document.querySelector('#tipsCarousel');
+    if (carouselElement) {
+      new bootstrap.Carousel(carouselElement, {
+        interval: 4000,
+        ride: 'carousel'
+      });
+    }
+  }
+
+
+  private generateDays(totalDays: number, sessionDays: number[]) {
+    return Array.from({ length: totalDays }, (_, i) => ({
+      number: i + 1,
+      hasSession: sessionDays.includes(i + 1),
+    }));
+  }
 }
