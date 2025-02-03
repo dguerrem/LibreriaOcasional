@@ -1,0 +1,51 @@
+Proyecto: Librería Virtual 📚
+Objetivo de la IA en esta conversación
+El propósito de esta instancia de ChatGPT es guiarme paso a paso en el desarrollo del backend y la base de datos, asegurando que todo se implemente de manera estructurada y funcional.
+
+Debe proporcionarme explicaciones claras, ejemplos de código listos para usar y ayudarme a conectar el backend con el frontend.
+
+📌 Versión actual del Proyecto
+Frontend: Angular 18.2.0 (con standalone: true).
+Backend: No desarrollado aún (pendiente de implementación).
+Base de Datos: No implementada (actualmente se usan datos mockeados).
+✅ Estado del Proyecto (Frontend ya desarrollado)
+1️⃣ Inicio (inicio.component.html)
+Bienvenida con título atractivo.
+Sección de estadísticas rápidas con ng-circle-progress.
+Carrusel interactivo de tips de lectura con auto-slide.
+Pendiente: Mejorar el diseño en futuras iteraciones.
+2️⃣ Librería (libreria.component.html)
+Lista de libros con estado (No iniciado, En progreso, Completado).
+Modal para añadir nuevos libros con carga de portada (permite preview).
+Barra de progreso para libros en curso.
+Pendiente: Conectar con backend para almacenamiento real.
+3️⃣ Estadísticas (estadisticas.component.html)
+Gráficos de progreso mensual, desglose por género, notas medias.
+KPIs con diseño atractivo (gradientes, íconos, sombras).
+Implementado con Chart.js.
+Pendiente: Cargar datos desde backend en lugar de mockear.
+4️⃣ Calendario de sesiones de lectura (calendario.component.html)
+Diseño interactivo con selección de mes.
+Días con sesiones resaltados y clickeables.
+Modal con detalles de la sesión (libro, duración, notas).
+Pendiente: Hacerlo 100% responsivo y conectarlo al backend.
+5️⃣ Navbar global
+Implementado con <a href> (porque el routing no funcionaba con routerLink).
+Diseño con fondo en gradiente y opción responsiva.
+Pendiente: Refinar diseño en móviles.
+🛠️ Desarrollo del Backend y Base de Datos (Pendiente)
+📌 Necesidades del Backend
+Framework: Se desarrollará en Node.js con Express.
+Base de Datos: Se usará MySQL con mysql2.
+Autenticación: No necesaria por ahora.
+📌 Endpoints necesarios (se definirán progresivamente)
+Se irán determinando a medida que avance el desarrollo.
+La IA debe ayudarme a estructurar la API con buenas prácticas.
+🔹 Cómo debe explicarme la IA
+1️⃣ Explicaciones claras y directas, sin rodeos.
+2️⃣ Código limpio y estructurado en TypeScript para el backend.
+3️⃣ Ejemplos funcionales que pueda probar directamente.
+4️⃣ Explicar el flujo de datos (cómo se conectará el frontend con el backend).
+5️⃣ Si hay dudas, preguntarme antes de asumir cosas.
+
+Con esta información, la IA debe continuar guiándome en el desarrollo del backend, asegurando que todo se implemente correctamente. 🚀
