@@ -83,3 +83,7 @@ h5 {
   margin: 0 auto;
   padding: 2rem;
 }
+
+.swal2-popup {
+  max-width: 80% !important;
+}

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+<nav *ngIf="showNavbar" class="navbar navbar-expand-lg navbar-light bg-light shadow">
   <div class="container-fluid">
     <a class="navbar-brand text-gradient" href="/">Librería Virtual</a>
     <button
@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/" [class.active]="currentRoute === ''">Inicio</a>
+          <a class="nav-link" href="/inicio" [class.active]="currentRoute === 'inicio'">Inicio</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/libreria" [class.active]="currentRoute === 'libreria'">Librería</a>
