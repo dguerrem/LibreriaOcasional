@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
         return res.status(400).json({ error: "Email y contraseña son obligatorios" });
     }
 
-    let query = "SELECT IdUsuario, Nombre, Email, Password FROM Usuarios WHERE Email = ? LIMIT 1";
+    let query = "SELECT IdUsuario, Nombre, Apellidos, Email, Password FROM Usuarios WHERE Email = ? LIMIT 1";
 
     db.query(query, [email], async (error, results) => {
         if (error) {
@@ -81,7 +81,7 @@ app.post('/login', (req, res) => {
         }
 
         // Si todo está bien, enviamos respuesta exitosa
-        res.status(200).json({ message: "Login exitoso", userId: usuario.IdUsuario, nombre: usuario.Nombre });
+        res.status(200).json({ idUsuario: usuario.IdUsuario, nombreCompleto: usuario.Nombre + " " + usuario.Apellidos });
     });
 });
 

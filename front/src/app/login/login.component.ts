@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AutentificacionService } from '../services/autentificacion.service';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,15 @@ export class LoginComponent {
   rememberMe: boolean = false;
   showPassword: boolean = false;
 
-  constructor(private router: Router, private autentificacionService: AutentificacionService) { }
+  constructor(
+    private router: Router,
+    private autentificacionService: AutentificacionService,
+    private toastr: ToastrService
+  ) {
+    if (localStorage.getItem('idUsuario')) {
+      this.router.navigate(['/inicio']);
+    }
+  }
 
   onLogin(event: Event) {
     event.preventDefault();
@@ -34,10 +43,12 @@ export class LoginComponent {
 
     this.autentificacionService.login(this.email, this.password).subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
-        alert('Inicio de sesión exitoso');
-        localStorage.setItem('token', response.token); // Guardar token en localStorage
-        window.location.href = '/inicio'; // Redirigir a la página de inicio
+        localStorage.setItem('idUsuario', response.idUsuario);
+        localStorage.setItem('nombreCompleto', response.nombreCompleto);
+        window.location.href = '/inicio';
+        this.toastr.success('Has iniciado sesión', '¡Bienvenido! 🤝', {
+          timeOut: 3000
+        });
       },
       error: (_error) => {
         Swal.fire({
