@@ -1,0 +1,78 @@
+<div class="container py-5">
+    <div class="perfil-container">
+        <section class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-gradient mb-4">Configuración</h1>
+        </section>
+        <div class="tab-content">
+            <div class="tabs">
+                <button [class.active]="activeTab === 'datos'" (click)="setActiveTab('datos')">Datos Personales</button>
+                <button [class.active]="activeTab === 'imagen'" (click)="setActiveTab('imagen')">Imagen</button>
+                <button [class.active]="activeTab === 'seguridad'"
+                    (click)="setActiveTab('seguridad')">Seguridad</button>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div *ngIf="activeTab === 'datos'">
+                <h3>Datos Personales</h3>
+                <form>
+                    <label>Nombre</label>
+                    <input type="text" [(ngModel)]="nombre" [ngModelOptions]="{standalone: true}">
+
+                    <label>Apellidos</label>
+                    <input type="text" [(ngModel)]="apellidos" [ngModelOptions]="{standalone: true}">
+
+                    <label>Correo Electrónico</label>
+                    <input type="email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+
+                    <label>Teléfono</label>
+                    <input type="text" [(ngModel)]="telefono" [ngModelOptions]="{standalone: true}">
+
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" [(ngModel)]="fechaNacimiento" [ngModelOptions]="{standalone: true}">
+
+                    <button class="btn-save">Guardar Cambios</button>
+                </form>
+            </div>
+
+            <div *ngIf="activeTab === 'imagen'" class="image-upload-section">
+                <h3>Imagen</h3>
+                <div class="image-preview">
+                    <img src="https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436188.jpg"
+                        alt="Preview Imagen">
+                </div>
+                <input type="file" id="file-upload" (change)="onFileSelected($event)">
+                <label for="file-upload" class="custom-file-upload">Seleccionar Imagen</label>
+            </div>
+
+            <div *ngIf="activeTab === 'seguridad'">
+                <h3>Seguridad</h3>
+                <form>
+                    <label for="currentPassword">Contraseña Actual</label>
+                    <div class="input-container">
+                        <input type="{{ showCurrentPassword ? 'text' : 'password' }}" id="currentPassword">
+                        <i class="bi" [ngClass]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"
+                            (click)="toggleCurrentPassword()"></i>
+                    </div>
+
+                    <label for="newPassword">Nueva Contraseña</label>
+                    <div class="input-container">
+                        <input type="{{ showNewPassword ? 'text' : 'password' }}" id="newPassword">
+                        <i class="bi" [ngClass]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"
+                            (click)="toggleNewPassword()"></i>
+                    </div>
+
+                    <label for="confirmPassword">Confirmar Nueva Contraseña</label>
+                    <div class="input-container">
+                        <input type="{{ showConfirmPassword ? 'text' : 'password' }}" id="confirmPassword">
+                        <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"
+                            (click)="toggleConfirmPassword()"></i>
+                    </div>
+                    <button class="btn-save">Cambiar Contraseña</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>

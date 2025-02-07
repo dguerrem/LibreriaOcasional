@@ -1,0 +1,243 @@
+.perfil-container {
+    max-width: 700px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 7px;
+    justify-content: space-between;
+}
+
+.tabs button {
+    background: linear-gradient(to right, #ff6f61, #6c63ff);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tabs button.active {
+    background: #ffffff;
+    color: #6a11cb;
+    border: 2px solid #6a11cb;
+    box-shadow: 0px 4px 10px rgba(106, 17, 203, 0.3);
+}
+
+.tab-content {
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+form input:focus {
+    border-color: #6a11cb;
+    box-shadow: 0px 4px 10px rgba(106, 17, 203, 0.3);
+}
+
+form input[type="date"] {
+    appearance: none;
+    padding: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+form input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(50%);
+    cursor: pointer;
+}
+
+.btn-save {
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.image-upload-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.image-preview {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.custom-file-upload:hover {
+    background: linear-gradient(135deg, #ff9068, #ff6f61);
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-container input:focus {
+    border-color: #6a11cb;
+    box-shadow: 0px 4px 10px rgba(106, 17, 203, 0.3);
+}
+
+.input-container i {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 18px;
+    color: #6a11cb;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.input-container i:hover {
+    color: #2575fc;
+}
+
+.btn-save {
+    width: 100%;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn-save:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+.privacy-settings {
+    margin-top: 20px;
+}
+
+.privacy-settings h4 {
+    color: #ff6f61;
+    font-weight: bold;
+}
+
+.switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch .slider {
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.switch input:checked + .slider {
+    background: #6a11cb;
+}
+
+
+/* 🔹 Centrado del botón en móvil */
+@media (max-width: 992px) {
+    .tabs {
+        gap: 9px;
+    }
+
+    .tabs button {
+        font-size: 15px;
+        font-weight: bold;
+        padding: 1px 20px;
+        border-radius: 12px;
+    }
+
+    .tab-content {
+        padding: 8px;
+    }
+  }

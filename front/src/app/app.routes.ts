@@ -3,6 +3,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { LibreriaComponent } from './libreria/libreria.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { LoginComponent } from './login/login.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 export const routes: Routes = [
     {
@@ -20,6 +21,10 @@ export const routes: Routes = [
     {
         path: 'estadisticas',
         component: EstadisticasComponent,
+    },
+    {
+        path: 'perfil',
+        component: PerfilComponent
     },
     {
         path: '**',

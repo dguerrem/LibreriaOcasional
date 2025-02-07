@@ -3,6 +3,7 @@ const express = require('express');
 const db = require('./db');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const { formatDate } = require('./utils');
 
 require('dotenv').config();
 
@@ -84,6 +85,38 @@ app.post('/login', (req, res) => {
         res.status(200).json({ idUsuario: usuario.IdUsuario, nombreCompleto: usuario.Nombre + " " + usuario.Apellidos });
     });
 });
+
+app.get('/getUsuario/:idUsuario', (req, res) => {
+    const idUsuario = req.params.idUsuario;
+
+    // Validar que se recibió el parámetro
+    if (!idUsuario) {
+        return res.status(400).json({ error: 'El parámetro idUsuario es obligatorio.' });
+    }
+
+    let query = `
+        SELECT Nombre, Apellidos, FechaNacimiento, Email, Telefono
+        FROM Usuarios
+        WHERE IdUsuario = ?;
+    `;
+
+    db.query(query, [idUsuario], (error, results) => {
+        if (error) {
+            console.error('Error al obtener el usuario:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Usuario no encontrado.' });
+        }
+
+        let usuario = results[0];
+        usuario.FechaNacimiento = formatDate(usuario.FechaNacimiento);
+
+        res.json(usuario);
+    });
+});
+
 
 // Iniciar servidor
 app.listen(PORT, () => {
