@@ -1,43 +1,164 @@
-/* General */
-.container {
-    max-width: 960px;
+/* Contenedor */
+.content-box {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
+/* Tarjeta de libro */
 .book-card {
-    border: none;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: box-shadow 0.8s ease;
-}
-
-.book-card:hover {
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.card-img-top {
-    height: 150px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    gap: 15px;
 }
 
+/* Imagen del libro */
+.book-image img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.4s ease-out;
+    box-shadow: 1px 1px 15px rgb(108, 108, 108);
+}
+
+/* Imagen del libro */
+.book-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Información del libro */
+.book-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Estado del libro */
 .badge {
-    font-size: 0.8rem;
+    padding: 13px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.badge-completed {
+    background: #4CAF50;
+    color: white;
+}
+
+.badge-reading {
+    background: #FFC107;
+    color: black;
+}
+
+.badge-not-started {
+    background: #F44336;
+    color: white;
 }
 
 .progress {
-    height: 6px;
+    height: 25px;
+    /* Aumentamos el grosor */
+    border-radius: 12px;
+    overflow: hidden;
+    background: #e0e0e0;
+    /* Color de fondo para contraste */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    /* Sombra interna */
 }
 
 .progress-bar {
-    background-color: #ff6f61;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    /* Degradado llamativo */
+    transition: width 0.5s ease-in-out;
 }
 
-.btn-outline-secondary:hover {
-    background-color: #f0f0f0;
+/* Botones de acción */
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
 }
 
-.btn-outline-danger:hover {
-    background-color: #ffdddd;
+.btn-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-edit,
+.btn-delete {
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: #ff9800;
+    color: white;
+}
+
+.btn-delete {
+    background: #f44336;
+    color: white;
+}
+
+.btn-action:hover {
+    transform: scale(1.05);
+}
+
+.rating i {
+    font-size: 1.4rem;
+    text-shadow: 1px 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.rating .bi-star-fill {
+    color: #e5ff00;
+}
+
+.rating .bi-star-half {
+    color: #ffcc00;
+}
+
+.rating .bi-star {
+    color: #cccccc;
+}
+
+
+/* 📌 Estilo para pantallas grandes (modo horizontal) */
+@media (min-width: 768px) {
+    .book-card {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .book-image {
+        flex: 1;
+        max-width: 180px;
+    }
+
+    .book-info {
+        flex: 2;
+        padding-left: 20px;
+    }
 }

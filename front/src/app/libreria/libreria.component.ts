@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NuevoLibroComponent } from '../nuevo-libro/nuevo-libro.component';
+import { LibreriaService } from '../services/libros.service';
 
 @Component({
   selector: 'app-libreria',
@@ -11,32 +12,34 @@ import { NuevoLibroComponent } from '../nuevo-libro/nuevo-libro.component';
 })
 export class LibreriaComponent {
   estaNuevoLibroAbierto = false;
-  books = [
-    {
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      status: 'Completed',
-      rating: 5,
-      progress: 100,
-    },
-    {
-      title: '1984',
-      author: 'George Orwell',
-      status: 'In Progress',
-      rating: 4,
-      progress: 70,
-    },
-    {
-      title: 'Pride and Prejudice',
-      author: 'Jane Austen',
-      status: 'Not Started',
-      rating: 0,
-      progress: 0,
-    },
-  ];
+  books: any
 
-  startNewBook() {
-    console.log('Starting a new book...');
+  constructor(private libreriaService: LibreriaService) { }
+
+  ngOnInit() {
+    const idUsuario = localStorage.getItem('idUsuario');
+
+    if (!idUsuario) return;
+
+    this.libreriaService.getLibros(Number(idUsuario)).subscribe({
+      next: (response) => {
+        this.books = response.map((book: any) => ({
+          id: book.IdLibro,
+          title: book.NombreLibro,
+          author: book.NombreAutor,
+          cover: book.Portada,
+          status: book.Estado,
+          rating: book.Puntuacion,
+          pages: book.Paginas ?? 0,
+          progress: book.Progreso ?? 0,
+          startDate: book.FechaInicio,
+          endDate: book.FechaFin
+        }));
+      },
+      error: (err) => {
+        console.error('Error al obtener los libros', err);
+      }
+    });
   }
 
   abrirNuevoLibro() {
@@ -46,4 +49,20 @@ export class LibreriaComponent {
   cerrarNuevoLibro() {
     this.estaNuevoLibroAbierto = false;
   }
+
+  // Redondea hacia abajo el número de estrellas llenas
+  getFullStars(rating: number): number[] {
+    return Array(Math.floor(rating)).fill(0);
+  }
+
+  // Determina si hay media estrella
+  hasHalfStar(rating: number): boolean {
+    return rating % 1 !== 0;
+  }
+
+  // Calcula las estrellas vacías restantes
+  getEmptyStars(rating: number): number[] {
+    return Array(5 - Math.ceil(rating)).fill(0);
+  }
+
 }

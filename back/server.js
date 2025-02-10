@@ -14,14 +14,46 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Endpoint: Obtener todos los libros
-app.get('/getLibros', (req, res) => {
-    let query = 'SELECT * FROM Libros';
-    db.query(query, (error, results) => {
+app.get('/getLibros/:idUsuario', (req, res) => {
+    const idUsuario = req.params.idUsuario;
+    let query = `
+        SELECT 
+            L.IdLibro,
+            L.Titulo AS NombreLibro,
+            L.Portada,
+            A.Nombre AS NombreAutor,
+            E.Nombre AS Estado,
+            L.Puntuacion,
+            L.Paginas,
+            L.Progreso,
+            L.FechaInicio,
+            L.FechaFin
+        FROM Libros L
+        JOIN Autores A ON L.IdAutor = A.IdAutor
+        JOIN Estados E ON L.IdEstado = E.IdEstado
+        WHERE L.IdUsuario = ?;`;
+
+    db.query(query, [idUsuario], (error, results) => {
         if (error) {
+            console.error('Error al obtener los libros:', error);
             return res.status(500).json({ error: 'Error en el servidor' });
         }
-        res.json(results);
+
+        // Convertir datos antes de enviar la respuesta
+        const libros = results.map(libro => ({
+            IdLibro: libro.IdLibro,
+            NombreLibro: libro.NombreLibro,
+            Portada: libro.Portada,
+            NombreAutor: libro.NombreAutor,
+            Estado: libro.Estado,
+            Puntuacion: (libro.Puntuacion / 10) * 5, // Conversión de 10 a 5 estrellas
+            Paginas: libro.Paginas,
+            Progreso: libro.Progreso,
+            FechaInicio: formatDate(libro.FechaInicio), // Convertir a dd/mm/yyyy
+            FechaFin: formatDate(libro.FechaFin) // Convertir a dd/mm/yyyy
+        }));
+
+        res.json(libros);
     });
 });
 

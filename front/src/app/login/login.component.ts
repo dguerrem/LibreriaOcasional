@@ -32,7 +32,6 @@ export class LoginComponent {
   onLogin(event: Event) {
     event.preventDefault();
 
-    // Mostrar Swal de carga mientras esperamos respuesta del backend
     Swal.fire({
       title: 'Comprobando...',
       allowOutsideClick: false,
@@ -46,9 +45,6 @@ export class LoginComponent {
         localStorage.setItem('idUsuario', response.idUsuario);
         localStorage.setItem('nombreCompleto', response.nombreCompleto);
         window.location.href = '/inicio';
-        this.toastr.success('Has iniciado sesión', '¡Bienvenido! 🤝', {
-          timeOut: 3000
-        });
       },
       error: (_error) => {
         Swal.fire({
