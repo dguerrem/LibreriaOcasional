@@ -13,10 +13,12 @@ import { LibreriaService } from '../services/libros.service';
 export class LibreriaComponent {
   estaNuevoLibroAbierto = false;
   books: any
+  loading = false;
 
   constructor(private libreriaService: LibreriaService) { }
 
   ngOnInit() {
+    this.loading = true;
     const idUsuario = localStorage.getItem('idUsuario');
 
     if (!idUsuario) return;
@@ -35,9 +37,7 @@ export class LibreriaComponent {
           startDate: book.FechaInicio,
           endDate: book.FechaFin
         }));
-      },
-      error: (err) => {
-        console.error('Error al obtener los libros', err);
+        this.loading = false;
       }
     });
   }

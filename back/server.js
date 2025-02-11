@@ -149,6 +149,57 @@ app.get('/getUsuario/:idUsuario', (req, res) => {
     });
 });
 
+app.get('/getEstados', (req, res) => {
+    let query = `SELECT IdEstado, Nombre FROM Estados ORDER BY Nombre ASC`;
+
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error al obtener los estados:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        res.json(results);
+    });
+});
+
+app.get('/getTapas', (req, res) => {
+    let query = `SELECT IdTapa, Nombre FROM Tapas ORDER BY Nombre ASC`;
+
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error al obtener las tapas:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        res.json(results);
+    });
+});
+
+app.get('/getEditoriales', (req, res) => {
+    let query = `SELECT IdEditorial, Nombre FROM Editoriales ORDER BY Nombre ASC`;
+
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error al obtener las editoriales:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        res.json(results);
+    });
+});
+
+app.get('/getAutores', (req, res) => {
+    let query = `SELECT IdAutor, Nombre FROM Autores ORDER BY Nombre ASC`;
+
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error al obtener los autores:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+
+        res.json(results);
+    });
+});
 
 // Iniciar servidor
 app.listen(PORT, () => {

@@ -10,19 +10,62 @@
         </div>
         <div class="form-group">
             <label for="author">Autor</label>
-            <input type="text" id="author" class="form-control" [(ngModel)]="book.autor" name="autor" required />
+            <input id="author" type="text" class="form-control" [(ngModel)]="book.autor" name="autor"
+                placeholder="Escribe el nombre del autor">
         </div>
+
         <div class="form-group">
+            <label for="editorial">Editorial</label>
+            <select id="editorial" class="form-control" [(ngModel)]="book.editorial" name="editorial" (change)="onEditorialChange($event)">
+                <option selected value="">Selecciona editorial</option>
+                <option *ngFor="let editorial of editoriales" [value]="editorial.IdEditorial">{{ editorial.Nombre }}</option>
+                <option value="custom">No la encuentro en la lista</option>
+            </select>
+        </div>
+       
+
+        <div class="form-group">
+            <label for="tapa">Tapa</label>
+            <select id="tapa" class="form-control" [(ngModel)]="book.tapa" name="tapa">
+                <option selected value="">Selecciona tapa</option>
+                <option *ngFor="let tapa of tapas" [value]="tapa.IdTapa">{{ tapa.Nombre }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" class="form-control" [(ngModel)]="book.estado" name="estado"
+                (change)="onEstadoChange()">
+                <option selected value="">Selecciona estado</option>
+                <option *ngFor="let estado of estados" [value]="estado.IdEstado">{{ estado.Nombre }}</option>
+            </select>
+        </div>
+
+        <div class="form-group" *ngIf="book.estado === '2'">
+            <label for="rating">Puntuación</label>
+            <input type="number" id="rating" class="form-control" [(ngModel)]="book.puntuacion" name="puntuacion"
+                min="1" max="5" />
+        </div>
+        <div class="form-group" *ngIf="book.estado !== '3'">
             <label for="start-date">Fecha de Inicio</label>
             <input type="date" id="start-date" class="form-control" [(ngModel)]="book.fechaInicio" name="fechaInicio" />
         </div>
-        <div class="form-group">
+
+        <div class="form-group" *ngIf="book.estado === '2'">
             <label for="end-date">Fecha de Finalización</label>
             <input type="date" id="end-date" class="form-control" [(ngModel)]="book.fechaFin" name="fechaFin" />
+        </div>
+        <div class="form-group" *ngIf="book.estado !== '3'">
+            <label for="precio">Precio</label>
+            <input type="number" id="precio" class="form-control" [(ngModel)]="book.precio" name="precio" step="0.01" />
         </div>
         <div class="form-group">
             <label for="pages">Páginas Totales</label>
             <input type="number" id="pages" class="form-control" [(ngModel)]="book.paginas" name="paginas" />
+        </div>
+        <div class="form-group" *ngIf="book.estado === '1'">
+            <label for="progress">Progreso de Lectura (Páginas leídas)</label>
+            <input type="number" id="progress" class="form-control" [(ngModel)]="book.progreso" name="progreso" />
         </div>
         <div class="form-group">
             <label for="cover">Portada del Libro</label>

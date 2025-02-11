@@ -120,7 +120,36 @@
     background-color: #e65a50;
 }
 
-/* Mostrar el nombre del archivo */
+.popup-form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #ff6f61;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2.5rem;
+    position: relative;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6f61"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1.2rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup-form select:hover {
+    border-color: #e65a50;
+}
+
+.popup-form select:focus {
+    outline: none;
+    border-color: #e65a50;
+    box-shadow: 0 0 5px rgba(230, 90, 80, 0.5);
+}
+
 .file-name {
     display: block;
     margin-top: 0.5rem;
@@ -152,9 +181,7 @@
 
 .file-upload-box:hover {
     border-color: #e65a50;
-    /* Cambiar color al pasar el cursor */
     background-color: #fff0ec;
-    /* Fondo más claro */
 }
 
 .file-upload-box .file-icon {
@@ -168,7 +195,6 @@
     font-size: 1rem;
 }
 
-/* Archivo Seleccionado */
 .file-selected {
     display: flex;
     align-items: center;
@@ -231,3 +257,4 @@
     font-weight: bold;
     text-align: center !important;
 }
+
