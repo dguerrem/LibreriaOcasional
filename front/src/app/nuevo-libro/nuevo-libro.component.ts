@@ -25,8 +25,8 @@ export class NuevoLibroComponent {
     estado: '',
     progreso: null,
     puntuacion: null,
-    fechaInicio: '',
-    fechaFin: '',
+    fechaInicio: null as any,
+    fechaFin: null as any,
     paginas: 0,
     precio: null,
     portadaPreview: null as SafeUrl | null,
@@ -80,6 +80,9 @@ export class NuevoLibroComponent {
       return;
     }
 
+    console.log(this.book);
+
+
     // TODO: CAMBIAR A METODOS EXTERNOS
     // this.revisarPrecio()
     // this.revisarPaginas()
@@ -106,21 +109,76 @@ export class NuevoLibroComponent {
 
     if (this.book.estado === "1") { // En progreso
       if (this.book.progreso !== null && (this.book.progreso < 0 || this.book.progreso > this.book.paginas)) {
-        console.error("El progreso de lectura no puede ser negativo ni mayor que el total de páginas.");
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'El progreso de lectura no puede ser negativo ni mayor que el total de páginas.',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
+        return;
+      }
+
+      if (this.book.fechaInicio === null) {
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'Si has comenzado el libro debes indicar una fecha de inicio.',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
+        return;
+      }
+
+      if (this.book.fechaInicio > this.getDiaActual()) {
+        Swal.fire({
+          title: 'Fecha Inválida',
+          text: 'La fecha de inicio no puede ser mayor al día de hoy.',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
+        return;
+      }
+
+      if (this.book.progreso === null) {
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'Si has comenzado el libro debes indicar el progreso de lectura (Páginas leídas).',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
         return;
       }
     }
 
     if (this.book.estado === "2") { // Completado
+      if (this.book.puntuacion === null) {
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'Debes indicar una puntuación',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
+        return;
+      }
+
       // Validación de puntuación (0 - 10)
-      if (this.book.puntuacion !== null && (this.book.puntuacion < 0 || this.book.puntuacion > 10)) {
-        console.error("La puntuación debe estar entre 0 y 10.");
+      if ((this.book.puntuacion < 0 || this.book.puntuacion > 10)) {
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'La puntuación debe estar entre 0 y 10.',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
         return;
       }
 
       // Validación de fechas: Fecha inicio <= Fecha final
       if (this.book.fechaInicio && this.book.fechaFin && new Date(this.book.fechaInicio) > new Date(this.book.fechaFin)) {
-        console.error("La fecha de inicio no puede ser mayor que la fecha de finalización.");
+        Swal.fire({
+          title: 'Datos Erróneos',
+          text: 'La fecha de inicio no puede ser mayor que la fecha de finalización.',
+          icon: 'error',
+          confirmButtonText: 'Revisar'
+        });
         return;
       }
     }
@@ -156,8 +214,17 @@ export class NuevoLibroComponent {
     // Enviar el body a la API (Aún por implementar)
     console.log("Enviando datos del libro:", body);
 
-    // Cerrar el popup después de añadir el libro
-    this.closePopup();
+    // TODO: DESCOMENTAR ESTA LINEA
+    // this.closePopup();
+  }
+
+  private muestraSwalError(errorMessage: string) {
+    Swal.fire({
+      title: 'Datos Erróneos',
+      text: errorMessage,
+      icon: 'error',
+      confirmButtonText: 'Revisar'
+    });
   }
 
   private faltanDatosPorCompletar() {
@@ -170,6 +237,15 @@ export class NuevoLibroComponent {
       !this.book.paginas ||
       !this.book.portadaPreview
   }
+
+  getDiaActual() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -202,7 +278,8 @@ export class NuevoLibroComponent {
       this.book.progreso = null;
     }
     if (this.book.estado !== 'Completado') {
-      this.book.puntuacion = null; this.book.fechaFin = '';
+      this.book.puntuacion = null;
+      this.book.fechaFin = null;
     }
   }
 
