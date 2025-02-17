@@ -6,7 +6,7 @@
     <form (submit)="onSubmit()" class="popup-form">
         <div class="form-group">
             <label for="title">Título</label>
-            <input type="text" id="title" class="form-control" [(ngModel)]="book.titulo" name="titulo" required />
+            <input type="text" id="title" class="form-control" [(ngModel)]="book.titulo" name="titulo" required  placeholder="Escribe el nombre del libro"/>
         </div>
         <div class="form-group">
             <label for="author">Autor</label>
@@ -16,13 +16,15 @@
 
         <div class="form-group">
             <label for="editorial">Editorial</label>
-            <select id="editorial" class="form-control" [(ngModel)]="book.editorial" name="editorial" (change)="onEditorialChange($event)">
+            <select id="editorial" class="form-control" [(ngModel)]="book.editorial" name="editorial"
+                (change)="onEditorialChange($event)">
                 <option selected value="">Selecciona editorial</option>
-                <option *ngFor="let editorial of editoriales" [value]="editorial.IdEditorial">{{ editorial.Nombre }}</option>
+                <option *ngFor="let editorial of editoriales" [value]="editorial.IdEditorial">{{ editorial.Nombre }}
+                </option>
                 <option value="custom">No la encuentro en la lista</option>
             </select>
         </div>
-       
+
 
         <div class="form-group">
             <label for="tapa">Tapa</label>
@@ -34,8 +36,7 @@
 
         <div class="form-group">
             <label for="estado">Estado</label>
-            <select id="estado" class="form-control" [(ngModel)]="book.estado" name="estado"
-                (change)="onEstadoChange()">
+            <select id="estado" class="form-control" [(ngModel)]="book.estado" name="estado">
                 <option selected value="">Selecciona estado</option>
                 <option *ngFor="let estado of estados" [value]="estado.IdEstado">{{ estado.Nombre }}</option>
             </select>
@@ -70,7 +71,8 @@
         <div class="form-group">
             <label for="cover">Portada del Libro</label>
             <div class="custom-file-input">
-                <input type="file" id="cover" class="visually-hidden" (change)="onFileSelected($event)" />
+                <input type="file" id="cover" class="visually-hidden" (change)="onFileSelected($event)"
+                    accept="image/png, image/jpeg, image/jpg, image/gif, image/webp, image/heic, image/heif" />
                 <div class="file-upload-box" (click)="triggerFileInput()">
                     <i *ngIf="!book.portadaPreview" class="bi bi-upload file-icon"></i>
                     <p *ngIf="!book.portadaPreview">Subir Archivo</p>

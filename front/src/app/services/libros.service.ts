@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class LibreriaService {
-    private apiUrl = 'http://localhost:3000/getLibros';
+    private apiUrl = 'https://libreriaocasional.onrender.com/getLibros';
 
     constructor(private http: HttpClient) { }
 

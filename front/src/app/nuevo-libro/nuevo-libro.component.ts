@@ -17,20 +17,7 @@ import Swal from 'sweetalert2';
 export class NuevoLibroComponent {
   @Output() close = new EventEmitter<void>();
 
-  book = {
-    titulo: '',
-    autor: '',
-    editorial: '' as any,
-    tapa: '',
-    estado: '',
-    progreso: null,
-    puntuacion: null,
-    fechaInicio: null as any,
-    fechaFin: null as any,
-    paginas: 0,
-    precio: null,
-    portadaPreview: null as SafeUrl | null,
-  };
+  book = this.initBook()
 
   editoriales: { IdEditorial: number; Nombre: string }[] = [];
   tapas: { IdTapa: number; Nombre: string }[] = [];
@@ -42,6 +29,23 @@ export class NuevoLibroComponent {
     private estadosService: EstadosService,
     private tapasService: TapasService,
   ) { }
+
+  initBook() {
+    return {
+      titulo: '',
+      autor: '',
+      editorial: '' as any,
+      tapa: '',
+      estado: '',
+      progreso: null,
+      puntuacion: null as any,
+      fechaInicio: null as any,
+      fechaFin: null as any,
+      paginas: 0,
+      precio: null,
+      portadaPreview: null as SafeUrl | null,
+    }
+  }
 
   ngOnInit() {
     this.editorialesService.getEditoriales().subscribe({
@@ -63,122 +67,67 @@ export class NuevoLibroComponent {
     });
   }
 
-
   closePopup() {
     this.close.emit();
   }
 
   onSubmit() {
-    // Validaciones básicas antes de enviar
     if (this.faltanDatosPorCompletar()) {
-      Swal.fire({
-        title: 'Datos Incompletos',
-        text: 'Faltan datos por completar antes de crear el libro.',
-        icon: 'error',
-        confirmButtonText: 'Revisar'
-      });
+      this.muestraSwalError('Faltan datos por completar antes de crear el libro.')
       return;
     }
 
-    console.log(this.book);
-
-
-    // TODO: CAMBIAR A METODOS EXTERNOS
-    // this.revisarPrecio()
-    // this.revisarPaginas()
-    // etc.
-    if (this.book.precio !== null && this.book.precio < 0) {
-      Swal.fire({
-        title: 'Datos Erróneos',
-        text: 'El precio no puede ser negativo.',
-        icon: 'error',
-        confirmButtonText: 'Revisar'
-      });
+    if (this.esPrecioErroneo()) {
+      this.muestraSwalError('El precio no puede ser negativo.')
       return;
     }
 
-    if (this.book.paginas !== null && this.book.paginas < 0) {
-      Swal.fire({
-        title: 'Datos Erróneos',
-        text: 'Las páginas no pueden ser negativas.',
-        icon: 'error',
-        confirmButtonText: 'Revisar'
-      });
+    if (this.sonPaginasErroneas()) {
+      this.muestraSwalError('Las páginas no pueden ser negativas.')
       return;
     }
 
-    if (this.book.estado === "1") { // En progreso
-      if (this.book.progreso !== null && (this.book.progreso < 0 || this.book.progreso > this.book.paginas)) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'El progreso de lectura no puede ser negativo ni mayor que el total de páginas.',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+    if (this.esEstadoEnProgreso()) { // En progreso
+      if (this.esProgresoErroneo()) {
+        this.muestraSwalError('El progreso de lectura no puede ser negativo ni mayor que el total de páginas.')
         return;
       }
 
-      if (this.book.fechaInicio === null) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'Si has comenzado el libro debes indicar una fecha de inicio.',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+      if (this.esFechaInicioNula()) {
+        this.muestraSwalError('Si has comenzado el libro debes indicar una fecha de inicio.')
         return;
       }
 
-      if (this.book.fechaInicio > this.getDiaActual()) {
-        Swal.fire({
-          title: 'Fecha Inválida',
-          text: 'La fecha de inicio no puede ser mayor al día de hoy.',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+      if (this.esFechaInicioErronea()) {
+        this.muestraSwalError('La fecha de inicio no puede ser mayor al día de hoy.')
         return;
       }
 
-      if (this.book.progreso === null) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'Si has comenzado el libro debes indicar el progreso de lectura (Páginas leídas).',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+      if (this.esProgresoNulo()) {
+        this.muestraSwalError('Si has comenzado el libro debes indicar el progreso de lectura (Páginas leídas).')
         return;
       }
     }
 
-    if (this.book.estado === "2") { // Completado
-      if (this.book.puntuacion === null) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'Debes indicar una puntuación',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+    if (this.esEstadoCompletado()) { // Completado
+      if (this.esPuntuacionNula()) {
+        this.muestraSwalError('Debes indicar una puntuación')
         return;
       }
 
-      // Validación de puntuación (0 - 10)
-      if ((this.book.puntuacion < 0 || this.book.puntuacion > 10)) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'La puntuación debe estar entre 0 y 10.',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+      if (this.esPuntuacionErronea()) {
+        this.muestraSwalError('La puntuación debe estar entre 0 y 10.')
+        return;
+      }
+
+      if (this.faltanFechasPorIndicar()) {
+        this.muestraSwalError('Se debe indicar tanto la fecha de inicio como la fecha de finalización')
         return;
       }
 
       // Validación de fechas: Fecha inicio <= Fecha final
-      if (this.book.fechaInicio && this.book.fechaFin && new Date(this.book.fechaInicio) > new Date(this.book.fechaFin)) {
-        Swal.fire({
-          title: 'Datos Erróneos',
-          text: 'La fecha de inicio no puede ser mayor que la fecha de finalización.',
-          icon: 'error',
-          confirmButtonText: 'Revisar'
-        });
+      if (this.esFechaInicioMayorFechaFin()) {
+        this.muestraSwalError('La fecha de inicio no puede ser mayor que la fecha de finalización.')
         return;
       }
     }
@@ -187,28 +136,24 @@ export class NuevoLibroComponent {
     const body: any = {
       titulo: this.book.titulo,
       autor: this.book.autor,
-      editorial: this.book.editorial || null,
-      tapa: this.book.tapa || null,
+      editorial: this.book.editorial,
+      tapa: this.book.tapa,
       estado: this.book.estado,
-      precio: this.book.precio || null,
-      paginas: this.book.paginas || null,
+      paginas: this.book.paginas,
       portada: this.book.portadaPreview,
     };
 
-    // Si el estado es "En progreso", se añade progreso de lectura
-    if (this.book.estado === "1") {
-      body.progreso = this.book.progreso || null;
+    if (this.esEstadoEnProgreso()) {
+      body.progreso = this.book.progreso;
+      body.precio = this.book.precio;
+      body.fechaInicio = this.book.fechaInicio;
     }
 
-    // Si el estado es "Completado", se agregan puntuación y fecha de finalización
-    if (this.book.estado === "2") {
-      body.puntuacion = this.book.puntuacion || null;
-      body.fechaFin = this.book.fechaFin || null;
-    }
-
-    if (this.book.estado !== "3") {
-      body.fechaInicio = this.book.fechaInicio || null;
-      body.precio = this.book.precio || null;
+    if (this.esEstadoCompletado()) {
+      body.puntuacion = this.book.puntuacion;
+      body.fechaInicio = this.book.fechaInicio;
+      body.fechaFin = this.book.fechaFin;
+      body.precio = this.book.precio;
     }
 
     // Enviar el body a la API (Aún por implementar)
@@ -246,22 +191,32 @@ export class NuevoLibroComponent {
     return `${year}-${month}-${day}`;
   }
 
-
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.book.portadaPreview = this.sanitizer.bypassSecurityTrustUrl(
-          reader.result as string
-        );
-      };
-      reader.readAsDataURL(file); // Convertimos la imagen en base64
-    } else {
-      this.book.portadaPreview = null; // Si no es imagen, no mostramos nada
+
+    if (!file) {
+      return;
     }
-    this.book.portadaPreview = file ? file.name : '';
+
+    // Lista de tipos MIME permitidos
+    const allowedTypes = [
+      "image/png", "image/jpeg", "image/jpg", "image/gif",
+      "image/webp", "image/heic", "image/heif"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.muestraSwalError('Formato de imagen no permitido. Usa PNG, JPG, GIF, WEBP, HEIC o HEIF.');
+      return;
+    }
+
+    // Convertimos la imagen en base64 para vista previa
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.book.portadaPreview = this.sanitizer.bypassSecurityTrustUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   }
+
 
   clearFile() {
     this.book.portadaPreview = '';
@@ -273,20 +228,57 @@ export class NuevoLibroComponent {
     input.click();
   }
 
-  onEstadoChange() {
-    if (this.book.estado !== 'En progreso') {
-      this.book.progreso = null;
-    }
-    if (this.book.estado !== 'Completado') {
-      this.book.puntuacion = null;
-      this.book.fechaFin = null;
-    }
-  }
-
   onEditorialChange(event: any) {
     if (event.target.value === "custom") {
       this.book.editorial = null;
     }
   }
 
+  private esPrecioErroneo() {
+    return this.book.precio !== null && this.book.precio < 0
+  }
+
+  private sonPaginasErroneas() {
+    return this.book.paginas !== null && this.book.paginas < 0
+  }
+
+  private esProgresoErroneo() {
+    return this.book.progreso !== null && (this.book.progreso < 0 || this.book.progreso > this.book.paginas)
+  }
+
+  private esPuntuacionErronea() {
+    return (this.book.puntuacion < 0 || this.book.puntuacion > 10)
+  }
+
+  private esProgresoNulo() {
+    return this.book.progreso === null
+  }
+
+  private esFechaInicioNula() {
+    return this.book.fechaInicio === null
+  }
+
+  private esPuntuacionNula() {
+    return this.book.puntuacion === null
+  }
+
+  private esFechaInicioErronea() {
+    return this.book.fechaInicio > this.getDiaActual()
+  }
+
+  private esFechaInicioMayorFechaFin() {
+    return new Date(this.book.fechaInicio) > new Date(this.book.fechaFin)
+  }
+
+  private faltanFechasPorIndicar() {
+    return this.book.fechaInicio === null || this.book.fechaFin === null;
+  }
+
+  private esEstadoEnProgreso() {
+    return this.book.estado === "1"
+  }
+
+  private esEstadoCompletado() {
+    return this.book.estado === "2"
+  }
 }
