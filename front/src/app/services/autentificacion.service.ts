@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AutentificacionService {
-    private apiUrl = 'https://libreriaocasional.onrender.com/login';
+    private apiUrl = 'http://localhost:3000/autenticacion/';
+    private epLogin = 'login';
 
     constructor(private http: HttpClient) { }
 
     login(email: string, password: string): Observable<any> {
+        const url = `${this.apiUrl}${this.epLogin}`;
         const body = { email, password };
-        return this.http.post(this.apiUrl, body);
+        return this.http.post(url, body);
     }
 }

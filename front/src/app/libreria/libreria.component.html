@@ -29,20 +29,21 @@
             <!-- Puntuación -->
             <div class="mt-3 rating">
               <!-- Estrellas llenas -->
-              <ng-container *ngFor="let _ of getFullStars(book.rating)">
+              <ng-container *ngFor="let _ of [].constructor(getFullStars(book.rating))">
                 <i class="bi bi-star-fill text-warning"></i>
               </ng-container>
 
-              <!-- Media estrella si aplica -->
-              <ng-container *ngIf="hasHalfStar(book.rating)">
-                <i class="bi bi-star-half text-warning"></i>
+              <!-- Estrella parcial (¼, ½ o ¾) si aplica -->
+              <ng-container *ngIf="getFractionalStar(book.rating)">
+                <i class="{{ getFractionalStar(book.rating) }} text-warning"></i>
               </ng-container>
 
               <!-- Estrellas vacías -->
-              <ng-container *ngFor="let _ of getEmptyStars(book.rating)">
+              <ng-container *ngFor="let _ of [].constructor(getEmptyStars(book.rating))">
                 <i class="bi bi-star text-muted"></i>
               </ng-container>
             </div>
+
 
             <!-- Barra de progreso con porcentaje -->
             <div class="progress mt-3">
@@ -75,4 +76,4 @@
   </div>
 </div>
 
-<app-nuevo-libro *ngIf="estaNuevoLibroAbierto" (close)="cerrarNuevoLibro()"></app-nuevo-libro>
+<app-nuevo-libro *ngIf="estaNuevoLibroAbierto" (libroCreado)="cerrarNuevoLibro()"></app-nuevo-libro>

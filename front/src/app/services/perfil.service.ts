@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class PerfilService {
-    private apiUrl = 'https://libreriaocasional.onrender.com/getUsuario';
+    private apiUrl = 'http://localhost:3000/getUsuario';
 
     constructor(private http: HttpClient) { }
 

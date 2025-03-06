@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class TapasService {
-    private apiUrl = 'https://libreriaocasional.onrender.com/getTapas';
+    // private apiUrl = 'http://localhost:3000/getTapas';
+    private apiUrl = 'http://localhost:3000/getTapas';
 
     constructor(private http: HttpClient) { }
 

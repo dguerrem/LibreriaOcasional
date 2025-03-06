@@ -6,6 +6,7 @@ import { EditorialesService } from '../services/editoriales.service';
 import { EstadosService } from '../services/estados.service';
 import { TapasService } from '../services/tapas.service';
 import Swal from 'sweetalert2';
+import { LibreriaService } from '../services/libros.service';
 
 @Component({
   selector: 'app-nuevo-libro',
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
   styleUrl: './nuevo-libro.component.css'
 })
 export class NuevoLibroComponent {
-  @Output() close = new EventEmitter<void>();
+  @Output() libroCreado = new EventEmitter<void>();
 
   book = this.initBook()
 
@@ -28,6 +29,7 @@ export class NuevoLibroComponent {
     private editorialesService: EditorialesService,
     private estadosService: EstadosService,
     private tapasService: TapasService,
+    private libreriaService: LibreriaService,
   ) { }
 
   initBook() {
@@ -43,6 +45,7 @@ export class NuevoLibroComponent {
       fechaFin: null as any,
       paginas: 0,
       precio: null,
+      portadaFile: null as File | null,
       portadaPreview: null as SafeUrl | null,
     }
   }
@@ -68,10 +71,17 @@ export class NuevoLibroComponent {
   }
 
   closePopup() {
-    this.close.emit();
+    this.libroCreado.emit();
   }
 
   onSubmit() {
+    Swal.fire({
+      title: 'Registrando libro...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
     if (this.faltanDatosPorCompletar()) {
       this.muestraSwalError('Faltan datos por completar antes de crear el libro.')
       return;
@@ -132,35 +142,50 @@ export class NuevoLibroComponent {
       }
     }
 
-    // Construcción del body con todas las restricciones y casuísticas
-    const body: any = {
-      titulo: this.book.titulo,
-      autor: this.book.autor,
-      editorial: this.book.editorial,
-      tapa: this.book.tapa,
-      estado: this.book.estado,
-      paginas: this.book.paginas,
-      portada: this.book.portadaPreview,
-    };
+    // Creación del objeto FormData
+    const formData = new FormData();
+    formData.append('titulo', this.book.titulo);
+    formData.append('autor', this.book.autor);
+    formData.append('editorial', this.book.editorial);
+    formData.append('tapa', this.book.tapa);
+    formData.append('estado', this.book.estado);
+    formData.append('paginas', this.book.paginas.toString());
+    formData.append('portada', this.book.portadaFile as File);
+    formData.append('idUsuario', localStorage.getItem('idUsuario') as any);
 
     if (this.esEstadoEnProgreso()) {
-      body.progreso = this.book.progreso;
-      body.precio = this.book.precio;
-      body.fechaInicio = this.book.fechaInicio;
+      formData.append('progreso', this.book.progreso || '');
+      formData.append('fechaInicio', this.book.fechaInicio || '');
+      formData.append('precio', this.book.precio ? this.book.precio : '');
     }
 
     if (this.esEstadoCompletado()) {
-      body.puntuacion = this.book.puntuacion;
-      body.fechaInicio = this.book.fechaInicio;
-      body.fechaFin = this.book.fechaFin;
-      body.precio = this.book.precio;
+      formData.append('puntuacion', this.book.puntuacion?.toString() || '');
+      formData.append('progreso', this.book.paginas.toString());
+      formData.append('fechaInicio', this.book.fechaInicio || '');
+      formData.append('fechaFin', this.book.fechaFin || '');
+      formData.append('precio', this.book.precio ? this.book.precio : '');
     }
 
-    // Enviar el body a la API (Aún por implementar)
-    console.log("Enviando datos del libro:", body);
-
-    // TODO: DESCOMENTAR ESTA LINEA
-    // this.closePopup();
+    this.libreriaService.addLibro(formData).subscribe({
+      next: () => {
+        Swal.fire({
+          title: 'Libro creado',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          this.libroCreado.emit();
+          this.closePopup();
+        });
+      },
+      error: () => {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo crear el libro. Inténtalo de nuevo.',
+          icon: 'error'
+        });
+      }
+    })
   }
 
   private muestraSwalError(errorMessage: string) {
@@ -209,6 +234,7 @@ export class NuevoLibroComponent {
       return;
     }
 
+    this.book.portadaFile = file;
     // Convertimos la imagen en base64 para vista previa
     const reader = new FileReader();
     reader.onload = () => {

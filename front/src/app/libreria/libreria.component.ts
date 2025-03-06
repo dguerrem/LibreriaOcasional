@@ -47,22 +47,48 @@ export class LibreriaComponent {
   }
 
   cerrarNuevoLibro() {
+    this.loading = true;
+    const idUsuario = localStorage.getItem('idUsuario');
     this.estaNuevoLibroAbierto = false;
+    this.libreriaService.getLibros(Number(idUsuario)).subscribe({
+      next: (response) => {
+        this.books = response.map((book: any) => ({
+          id: book.IdLibro,
+          title: book.NombreLibro,
+          author: book.NombreAutor,
+          cover: book.Portada,
+          status: book.Estado,
+          rating: book.Puntuacion,
+          pages: book.Paginas ?? 0,
+          progress: book.Progreso ?? 0,
+          startDate: book.FechaInicio,
+          endDate: book.FechaFin
+        }));
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los libros:', error);
+        this.loading = false;
+      }
+    });
   }
 
-  // Redondea hacia abajo el número de estrellas llenas
-  getFullStars(rating: number): number[] {
-    return Array(Math.floor(rating)).fill(0);
-  }
+getFullStars(rating: number): number {
+  return Math.floor(rating); // Obtiene la parte entera (ej. 4 en 4.25)
+}
 
-  // Determina si hay media estrella
-  hasHalfStar(rating: number): boolean {
-    return rating % 1 !== 0;
-  }
+getFractionalStar(rating: number): string | null {
+  const decimal = rating % 1; // Obtiene solo la parte decimal (ej. 0.25 en 4.25)
 
-  // Calcula las estrellas vacías restantes
-  getEmptyStars(rating: number): number[] {
-    return Array(5 - Math.ceil(rating)).fill(0);
-  }
+  if (decimal >= 0.75) return 'bi bi-star-fill'; // ¾ de estrella o más → Estrella llena
+  if (decimal >= 0.5) return 'bi bi-star-half'; // ½ estrella
+  if (decimal >= 0.25) return 'bi bi-star-half'; // ¼ estrella (se usa la media estrella por compatibilidad)
+  return null; // Si es menor de 0.25, no se muestra
+}
+
+getEmptyStars(rating: number): number {
+  return 5 - Math.ceil(rating); // Calcula las estrellas vacías
+}
+
 
 }
