@@ -127,6 +127,54 @@ router.post('/addLibro', upload.single('portada'), async (req, res) => {
     }
 });
 
+router.delete('/deleteLibro/:idLibro', async (req, res) => {
+    const { idLibro } = req.params;
+
+    if (!idLibro) return res.status(400).json({ error: 'Falta el ID del libro' });
+
+    try {
+        // 📌 Obtener el nombre de la portada antes de eliminar el libro
+        let queryPortada = `SELECT Portada FROM Libros WHERE IdLibro = ?;`;
+        db.query(queryPortada, [idLibro], async (error, results) => {
+            if (error) return res.status(500).json({ error: 'Error al obtener la portada del libro' });
+
+            const portada = results.length > 0 ? results[0].Portada : null;
+
+            // 📌 Eliminar sesiones relacionadas
+            let deleteSesionesQuery = `DELETE FROM Sesiones WHERE IdLibro = ?;`;
+            db.query(deleteSesionesQuery, [idLibro], (error) => {
+                if (error) return res.status(500).json({ error: 'Error al eliminar sesiones asociadas' });
+
+                // 📌 Eliminar el libro de la BD
+                let deleteLibroQuery = `DELETE FROM Libros WHERE IdLibro = ?;`;
+                db.query(deleteLibroQuery, [idLibro], async (error) => {
+                    if (error) return res.status(500).json({ error: 'Error al eliminar el libro' });
+
+                    // 📌 Si el libro tiene una portada, eliminar la imagen en HelioHost
+                    if (portada) {
+                        const sftp = new SftpClient();
+                        const remoteFilePath = remotePath + portada;
+
+                        try {
+                            await sftp.connect(sftpConfig);
+                            await sftp.delete(remoteFilePath);
+                            await sftp.end();
+                            console.log(`Imagen eliminada: ${portada}`);
+                        } catch (err) {
+                            console.error('Error al eliminar la imagen en HelioHost:', err);
+                        }
+                    }
+
+                    return res.status(200).json({ message: 'Libro eliminado correctamente' });
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Error en la eliminación del libro:', error);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+
 // 📌 Función para convertir el título a CamelCase
 const toCamelCase = (str) => {
     return str

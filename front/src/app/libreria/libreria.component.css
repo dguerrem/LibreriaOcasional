@@ -88,7 +88,7 @@
 /* Botones de acción */
 .actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     margin-top: 15px;
 }
 

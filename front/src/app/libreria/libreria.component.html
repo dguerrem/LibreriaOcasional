@@ -55,10 +55,7 @@
 
             <!-- Botones de Acción -->
             <div class="actions">
-              <button class="btn-action btn-edit">
-                <i class="bi bi-pencil"></i> Editar
-              </button>
-              <button class="btn-action btn-delete">
+              <button class="btn-action btn-delete" (click)="eliminarLibro(book.id, book.title)">
                 <i class="bi bi-trash"></i> Eliminar
               </button>
             </div>

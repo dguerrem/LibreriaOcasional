@@ -10,6 +10,7 @@ export class LibreriaService {
     private apiUrl = 'http://localhost:3000/libros/';
     private epGetLibros = 'getLibros';
     private epAddLibro = 'addLibro';
+    private epDeleteLibro = 'deleteLibro';
 
     constructor(private http: HttpClient) { }
 
@@ -21,5 +22,10 @@ export class LibreriaService {
     addLibro(libro: any): Observable<any> {
         const url = `${this.apiUrl}${this.epAddLibro}`;
         return this.http.post(url, libro);
+    }
+
+    deleteLibro(idLibro: number): Observable<any> {
+        const url = `${this.apiUrl}${this.epDeleteLibro}/${idLibro}`;
+        return this.http.delete(url);
     }
 }
