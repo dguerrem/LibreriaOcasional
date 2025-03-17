@@ -21,13 +21,13 @@
 
             <!-- Estado -->
             <span class="badge" [ngClass]="{
-              'badge-completed': book.status === 'Completado',
-              'badge-reading': book.status === 'En progreso',
-              'badge-not-started': book.status === 'No iniciado'
+              'badge-completed': book.status === EstadoLibro.COMPLETADO,
+              'badge-reading': book.status === EstadoLibro.EN_PROGRESO,
+              'badge-not-started': book.status === EstadoLibro.NO_INICIADO
             }">{{ book.status }}</span>
 
             <!-- Puntuación -->
-            <div class="mt-3 rating">
+            <div class="mt-3 rating" *ngIf="book.status === EstadoLibro.COMPLETADO">
               <!-- Estrellas llenas -->
               <ng-container *ngFor="let _ of [].constructor(getFullStars(book.rating))">
                 <i class="bi bi-star-fill text-warning"></i>
@@ -55,6 +55,10 @@
 
             <!-- Botones de Acción -->
             <div class="actions">
+              <button *ngIf="book.status === EstadoLibro.EN_PROGRESO" class="btn-action btn-add-progress"
+                (click)="anyadirProgreso(book.id)">
+                <i class="bi bi-plus"></i> Añadir Progreso
+              </button>
               <button class="btn-action btn-delete" (click)="eliminarLibro(book.id, book.title)">
                 <i class="bi bi-trash"></i> Eliminar
               </button>

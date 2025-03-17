@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('../config/db');
+const { formatDate } = require('../config/utils');
 
 // Config del router (app)
 const router = express.Router();

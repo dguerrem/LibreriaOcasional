@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NuevoLibroComponent } from '../nuevo-libro/nuevo-libro.component';
 import { LibreriaService } from '../services/libros.service';
 import Swal from 'sweetalert2';
+import { EstadoLibroEnum } from '../../enums/estados.enum';
 
 @Component({
   selector: 'app-libreria',
@@ -14,7 +15,9 @@ import Swal from 'sweetalert2';
 export class LibreriaComponent {
   estaNuevoLibroAbierto = false;
   books: any
-  loading = false;
+  loading = false;    
+
+  EstadoLibro = EstadoLibroEnum
 
   constructor(private libreriaService: LibreriaService) { }
 
@@ -122,7 +125,11 @@ export class LibreriaComponent {
         });
       }
     });
+  }
 
+  anyadirProgreso(idLibro: number) {
+    console.log(idLibro);
+    
   }
 
   getFullStars(rating: number): number {
