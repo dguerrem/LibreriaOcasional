@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LibreriaService {
     // private apiUrl = 'https://libreriaocasional.onrender.com/';
-    private apiUrl = 'http://localhost:3000/libros/';
+    private apiUrl = 'https://libreriaocasional.onrender.com/libros/';
     private epGetLibros = 'getLibros';
     private epAddLibro = 'addLibro';
     private epDeleteLibro = 'deleteLibro';

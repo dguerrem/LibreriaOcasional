@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AutentificacionService {
-    private apiUrl = 'http://localhost:3000/autenticacion/';
+    private apiUrl = 'https://libreriaocasional.onrender.com/autenticacion/';
     private epLogin = 'login';
 
     constructor(private http: HttpClient) { }

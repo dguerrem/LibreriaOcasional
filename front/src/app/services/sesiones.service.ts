@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SesionesService {
     // private apiUrl = 'https://libreriaocasional.onrender.com/';
-    private apiUrl = 'http://localhost:3000/sesiones/';
+    private apiUrl = 'https://libreriaocasional.onrender.com/sesiones/';
     private epGetSesiones = 'getSesiones';
     private epAddSesion = 'addSesion';
 

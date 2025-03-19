@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class EstadosService {
-    private apiUrl = 'http://localhost:3000/estados/getEstados';
+    private apiUrl = 'https://libreriaocasional.onrender.com/estados/getEstados';
 
     constructor(private http: HttpClient) { }
 
