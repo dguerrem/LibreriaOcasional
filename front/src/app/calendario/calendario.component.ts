@@ -78,7 +78,6 @@ export class CalendarioComponent {
 
   selectSession(day: any) {
     const session = day.session || null;
-    debugger
     const formattedDate = this.formatDate(day.session?.date); // Se pasa la fecha sin sesión si no hay sesión
 
     this.selectedSession = {
