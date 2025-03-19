@@ -15,14 +15,14 @@ router.get('/getSesiones/:idUsuario', (req, res) => {
 
     let query = `
         SELECT 
-            DATE_FORMAT(S.FechaCreacion, '%Y-%m-%d') AS date, 
+            DATE_FORMAT(S.FechaSesion, '%Y-%m-%d') AS date, 
             Libro AS book, 
             CONCAT(S.Duracion, ' minutos') AS duration, 
             S.PaginasLeidas AS pages, 
             IFNULL(S.Notas, '') AS notes
         FROM Sesiones S
         WHERE S.IdUsuario = ?
-        ORDER BY S.FechaCreacion ASC;
+        ORDER BY S.FechaSesion ASC;
     `;
 
     db.query(query, [idUsuario], (error, results) => {
