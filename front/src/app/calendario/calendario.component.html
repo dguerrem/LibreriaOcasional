@@ -1,4 +1,4 @@
-<div class="calendar-container">
+<div class="calendar-container" *ngIf="!this.loading">
     <!-- Cabecera del calendario -->
     <div class="calendar-header">
         <button (click)="prevMonth()">❮</button>
@@ -21,20 +21,35 @@
 </div>
 
 <!-- MODAL -->
+<!-- MODAL - ESTILO CARD -->
 <div class="modal-overlay" *ngIf="selectedSession" (click)="closeSessionDetails()">
-    <div class="modal" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="closeSessionDetails()">&times;</button>
-        <h4>{{ selectedSession.date }}</h4>
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        
+        <!-- Header del modal -->
+        <div class="modal-header">
+            <h4>{{ selectedSession.date }}</h4>
+        </div>
 
-        <ng-container *ngIf="selectedSession.book; else noSession">
-            <p><strong>Libro:</strong> {{ selectedSession.book }}</p>
-            <p><strong>Duración:</strong> {{ selectedSession.duration }}</p>
-            <p><strong>Páginas leídas:</strong> {{ selectedSession.pages }}</p>
-            <p><strong>Notas:</strong> {{ selectedSession.notes }}</p>
-        </ng-container>
+        <!-- Contenido del modal -->
+        <div class="modal-content">
+            <ng-container *ngIf="selectedSession.book; else noSession">
+                <p><i class="bi bi-book text-primary"></i> <strong>Libro:</strong> {{ selectedSession.book }}</p>
+                <p><i class="bi bi-clock text-info"></i> <strong>Duración:</strong> {{ selectedSession.duration }}</p>
+                <p><i class="bi bi-file-text text-success"></i> <strong>Páginas leídas:</strong> {{ selectedSession.pages }}</p>
+                <p *ngIf="selectedSession.notes"><i class="bi bi-chat-left-dots text-warning"></i> <strong>Notas:</strong> {{ selectedSession.notes }}</p>
+            </ng-container>
 
-        <ng-template #noSession>
-            <p>No hay ninguna sesión registrada este día.</p>
-        </ng-template>
+            <!-- Mensaje cuando no hay sesión -->
+            <ng-template #noSession>
+                <p class="text-muted mb-0 text-center">No hay ninguna sesión registrada este día.</p>
+            </ng-template>
+        </div>
+
+        <!-- Botón de cierre -->
+        <div class="modal-footer">
+            <button class="close-btn" (click)="closeSessionDetails()">Cerrar</button>
+        </div>
+        
     </div>
 </div>
+

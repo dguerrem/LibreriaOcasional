@@ -15,20 +15,47 @@ router.get('/getSesiones/:idUsuario', (req, res) => {
 
     let query = `
         SELECT 
-            L.Titulo AS NombreLibro, 
-            S.Duracion, 
-            S.PaginasLeidas, 
-            S.Notas
+            DATE_FORMAT(S.FechaCreacion, '%Y-%m-%d') AS date, 
+            Libro AS book, 
+            CONCAT(S.Duracion, ' minutos') AS duration, 
+            S.PaginasLeidas AS pages, 
+            IFNULL(S.Notas, '') AS notes
         FROM Sesiones S
-        JOIN Libros L ON S.IdLibro = L.IdLibro
-        WHERE S.IdUsuario = ?;
+        WHERE S.IdUsuario = ?
+        ORDER BY S.FechaCreacion ASC;
     `;
 
     db.query(query, [idUsuario], (error, results) => {
         if (error) {
+            console.error('Error al obtener sesiones:', error);
             return res.status(500).json({ error: 'Error en el servidor' });
         }
+
         res.json(results);
+    });
+});
+
+router.post('/addSesion', (req, res) => {
+    const { fecha, libro, duracion, paginasLeidas, notas, idUsuario } = req.body;
+
+    // 📌 Validación de datos obligatorios
+    if (!fecha || !libro || !duracion || !paginasLeidas || !idUsuario) {
+        return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    }
+
+    let query = `
+        INSERT INTO Sesiones (IdUsuario, Libro, Duracion, PaginasLeidas, Notas, FechaSesion)
+        VALUES (?, ?, ?, ?, ?, ?);
+    `;
+
+    let valores = [idUsuario, libro, duracion, paginasLeidas, notas, fecha];
+
+    db.query(query, valores, (error, results) => {
+        if (error) {
+            console.error('Error al insertar la sesión:', error);
+            return res.status(500).json({ error: 'Error en el servidor' });
+        }
+        res.status(201).json({ message: 'Sesión guardada correctamente', IdSesion: results.insertId });
     });
 });
 

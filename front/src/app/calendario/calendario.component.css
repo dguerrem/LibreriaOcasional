@@ -13,7 +13,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(45deg, #ff6f61, #6c63ff);;
+    background: linear-gradient(45deg, #ff6f61, #6c63ff);
     color: white;
     padding: 10px 15px;
     border-radius: 8px;
@@ -48,6 +48,12 @@
     margin-top: 5px;
 }
 
+.calendar-day:hover {
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(45deg, #ff6f61, #6c63ff) !important;
+}
+
 /* Espacios vacíos para el inicio del mes */
 .calendar-day.empty {
     background: none;
@@ -78,54 +84,99 @@
     color: white;
 }
 
-/* MODAL */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    /* Oscurece el fondo */
+    /* Fondo oscuro semitransparente */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
 }
 
-/* MODAL - Contenido centrado */
-.modal {
-    background: white;
-    padding: 20px;
-    width: 350px;
-    max-width: 90%;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
+/* Contenedor de la tarjeta */
+.modal-card {
+    background: #fff;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
     animation: fadeIn 0.3s ease-in-out;
-    display: block;
-    max-height: fit-content
 }
 
+/* Estilo del header */
+.modal-header {
+    background: linear-gradient(45deg, #ff6f61, #6c63ff);
+    padding: 12px;
+    text-align: center !important;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.modal-header h4 {
+    width: 100%;
+    text-shadow: 1px 1px 5px black;
+}
+
+.modal-content {
+    padding: 20px;
+    font-size: 16px;
+    color: #444;
+}
+
+/* Footer con botón */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    background: #f0f0f0;
+    border-top: 1px solid #ddd;
+}
+
+/* Botón cerrar más compacto y estilizado */
 .close-btn {
-    background: none;
+    background: #888;
+    color: white;
     border: none;
-    font-size: 1.5rem;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    padding: 8px 3rem;
+    font-size: 15px;
+    border-radius: 20px;
     cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease-in-out, transform 0.2s;
 }
 
+/* Efecto hover */
+.close-btn:hover {
+    background: #666;
+    transform: scale(1.05);
+}
+
+/* Efecto de clic */
+.close-btn:active {
+    background: #555;
+    transform: scale(0.98);
+}
+
+/* Animación de entrada */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateY(-20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Estilo para los iconos */
+.bi {
+    margin-right: 8px;
 }

@@ -25,7 +25,6 @@
     </section>
 
     <!-- Tips de Lectura Section -->
-    <!-- Tips de Lectura Section -->
     <section class="tips-section mt-5">
       <h2 class="h4 fw-semibold text-dark mb-4">Tips de Lectura</h2>
       <div id="tipsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -34,14 +33,14 @@
             <div class="tip-card p-3 text-center">
               <i class="bi bi-lightbulb text-primary fs-1"></i>
               <h5 class="mt-3">Explora Nuevos Géneros</h5>
-              <p >Sal de tu zona de confort y descubre géneros que nunca habías considerado leer.</p>
+              <p>Sal de tu zona de confort y descubre géneros que nunca habías considerado leer.</p>
             </div>
           </div>
           <div class="carousel-item">
             <div class="tip-card p-3 text-center">
               <i class="bi bi-clock-history text-success fs-1"></i>
               <h5 class="mt-3">Crea un Hábito Diario</h5>
-              <p >Dedica al menos 20 minutos al día para leer y disfruta de los beneficios a largo
+              <p>Dedica al menos 20 minutos al día para leer y disfruta de los beneficios a largo
                 plazo.</p>
             </div>
           </div>
@@ -49,14 +48,14 @@
             <div class="tip-card p-3 text-center">
               <i class="bi bi-bookmark-heart text-danger fs-1"></i>
               <h5 class="mt-3">Toma Notas Mientras Lees</h5>
-              <p >Subraya frases o ideas clave que resuenen contigo para recordarlas luego.</p>
+              <p>Subraya frases o ideas clave que resuenen contigo para recordarlas luego.</p>
             </div>
           </div>
           <div class="carousel-item">
             <div class="tip-card p-3 text-center">
               <i class="bi bi-globe text-info fs-1"></i>
               <h5 class="mt-3">Únete a una Comunidad de Lectura</h5>
-              <p >Participa en foros o grupos de lectura para compartir opiniones y descubrir nuevos
+              <p>Participa en foros o grupos de lectura para compartir opiniones y descubrir nuevos
                 títulos.</p>
             </div>
           </div>
@@ -64,10 +63,67 @@
       </div>
     </section>
 
-     <!-- Calendario de Sesiones de Lectura -->
-     <section class="calendar-section mt-5">
-      <h2 class="h4 fw-semibold text-dark mb-4">Últimas Sesiones</h2>
+    <!-- Calendario de Sesiones de Lectura -->
+    <section class="calendar-section mt-5">
+      <h2 class="h4 fw-semibold text-dark">Últimas Sesiones</h2>
+      <button class="btn btn-primary anyadirSeccion mt-2 mb-4" (click)="abrirPopup()">
+        <i class="bi bi-plus-lg"></i> Añadir Sesión
+      </button>
       <app-calendario></app-calendario>
     </section>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="popupAbierto" (click)="cerrarPopup()">
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3 class="text-gradient">Añadir Nueva Sesión</h3>
+
+        <!-- Formulario -->
+        <form>
+          <!-- Fecha -->
+          <div class="mb-3">
+            <label class="form-label">Fecha</label>
+            <div class="d-flex align-items-center">
+              <input name="fecha" type="date" class="form-control" [disabled]="!editarFecha" [max]="hoy"
+                [(ngModel)]="nuevaSesion.fecha">
+              <button type="button" class="btn btn-icon ms-2" (click)="toggleFecha()">
+                <i class="bi" [ngClass]="{'bi-calendar': !editarFecha, 'bi-calendar-check': editarFecha}"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Libro -->
+          <div class="mb-3">
+            <label class="form-label">Libro</label>
+            <input name="libro" type="text" class="form-control" [(ngModel)]="nuevaSesion.libro"
+              placeholder="Título del libro" required>
+          </div>
+
+          <!-- Duración y Páginas Leídas en la misma fila -->
+          <div class="d-flex gap-3 mb-3">
+            <div class="flex-grow-1">
+              <label class="form-label">Duración (min)</label>
+              <input name="duracion" type="number" class="form-control" [(ngModel)]="nuevaSesion.duracion" min="1"
+                placeholder="0" required>
+            </div>
+            <div class="flex-grow-1">
+              <label class="form-label">Páginas Leídas</label>
+              <input name="paginas" type="number" class="form-control" [(ngModel)]="nuevaSesion.paginasLeidas" min="1"
+                placeholder="0" required>
+            </div>
+          </div>
+
+          <!-- Notas -->
+          <div class="mb-3">
+            <label class="form-label">Notas</label>
+            <textarea name="notas" class="form-control" [(ngModel)]="nuevaSesion.notas"
+              placeholder="¿Qué te ha parecido esta lectura?"></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary guardarSesion" (click)="guardarSesion()">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
