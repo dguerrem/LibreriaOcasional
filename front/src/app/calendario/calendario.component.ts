@@ -78,7 +78,7 @@ export class CalendarioComponent {
 
   selectSession(day: any) {
     const session = day.session || null;
-    const formattedDate = this.formatDate(day.session?.date); // Se pasa la fecha sin sesión si no hay sesión
+    const formattedDate = this.formatDate(day.session?.date); 
 
     this.selectedSession = {
       date: formattedDate,
@@ -90,7 +90,7 @@ export class CalendarioComponent {
   }
 
   formatDate(dateStr: string | null): string {
-    if (!dateStr) return 'Sin sesión'; // Maneja el caso de días sin sesión
+    if (!dateStr) return 'Sin sesión';
 
     const [year, month, day] = dateStr.split('-');
     return `${day}-${month}-${year}`;
